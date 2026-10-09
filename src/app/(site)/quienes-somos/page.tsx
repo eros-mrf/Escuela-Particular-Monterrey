@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Reveal } from "@/components/motion/Reveal";
 import { ArrowLink, PageHeader, Section } from "@/components/ui/common";
 import { Icon } from "@/components/ui/Icon";
 import { COMMUNITY_TRAITS, INSTANCES, SCHOOL } from "@/content/pei";
@@ -68,15 +69,15 @@ export default async function QuienesSomosPage() {
 
       <Section tone="paper" label="Secciones de Quiénes somos">
         <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {CARDS.map((c) => (
-            <li key={c.href}>
-              <Link href={c.href} className="card lift flex h-full flex-col p-7">
-                <span className="mb-4 flex size-14 items-center justify-center rounded-2xl bg-sky text-brand"><Icon name={c.icon} size={26} /></span>
+          {CARDS.map((c, i) => (
+            <Reveal as="li" key={c.href} delay={(i % 3) * 90} className="h-full">
+              <Link href={c.href} className="card lift group flex h-full flex-col p-7">
+                <span className="mb-4 flex size-14 items-center justify-center rounded-2xl bg-sky text-brand transition-all duration-300 group-hover:-rotate-6 group-hover:bg-brand group-hover:text-white"><Icon name={c.icon} size={26} /></span>
                 <span className="font-display text-xl font-bold text-ink">{c.title}</span>
                 <span className="mt-2 flex-1 text-muted">{c.text}</span>
                 <span className="mt-4 inline-flex items-center gap-2 font-bold text-brand">Ver más <Icon name="arrow" size={16} /></span>
               </Link>
-            </li>
+            </Reveal>
           ))}
         </ul>
       </Section>

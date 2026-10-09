@@ -153,3 +153,69 @@
   to { opacity: 1; transform: none; }
 }
 .fade-up { animation: fade-up 0.6s ease both; }
+
+/* ───────────────────────── Movimiento institucional ─────────────────────────
+   Principios: lento, sutil y al servicio del contenido. Nada parpadea ni rebota.
+   Todo se desactiva con «reducir movimiento» y el contenido es visible sin JavaScript. */
+
+@keyframes fade-up-in { from { opacity: 0; transform: translate3d(0, 22px, 0); } to { opacity: 1; transform: none; } }
+@keyframes page-in { from { opacity: 0; transform: translate3d(0, 10px, 0); } to { opacity: 1; transform: none; } }
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+@keyframes drift-a { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(14px); } }
+@keyframes drift-b { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(-18px); } }
+@keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.045); } }
+@keyframes float-y { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+@keyframes grow-x { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes shine { from { transform: translateX(-130%) skewX(-20deg); } to { transform: translateX(260%) skewX(-20deg); } }
+@keyframes dot-pop { 0% { transform: scale(0.4); } 70% { transform: scale(1.25); } 100% { transform: scale(1); } }
+
+.btn { position: relative; overflow: hidden; }
+.btn::after {
+  content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 40%;
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.32), transparent);
+  transform: translateX(-130%) skewX(-20deg); pointer-events: none;
+}
+.nav-link { position: relative; }
+.nav-link::after {
+  content: ""; position: absolute; left: 0.75rem; right: 0.75rem; bottom: 0.3rem; height: 2px; border-radius: 2px;
+  background: var(--color-sun); transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease;
+}
+.nav-link:hover::after, .nav-link[aria-current="page"]::after, .nav-link[aria-expanded="true"]::after { transform: scaleX(1); }
+
+.title-rule { display: block; width: 3.5rem; height: 4px; border-radius: 4px; background: var(--color-sun); transform-origin: left; margin-bottom: 1rem; }
+.sun-rays, .sun-core { transform-box: fill-box; transform-origin: center; }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Entrada del encabezado de cada página y de la portada (solo CSS, sin JavaScript) */
+  .in { opacity: 0; animation: fade-up-in 0.85s cubic-bezier(0.2, 0.7, 0.2, 1) forwards; animation-delay: calc(var(--i, 0) * 110ms + 60ms); }
+  .page-in { animation: page-in 0.45s ease both; }
+
+  /* Aparición al desplazarse (la clase `js` la agrega un script mínimo en <head>) */
+  .js .reveal {
+    opacity: 0; transform: translate3d(0, var(--reveal-y, 26px), 0);
+    transition: opacity 0.85s cubic-bezier(0.2, 0.7, 0.2, 1) var(--reveal-delay, 0ms), transform 0.85s cubic-bezier(0.2, 0.7, 0.2, 1) var(--reveal-delay, 0ms);
+  }
+  .js .reveal[data-from="left"] { transform: translate3d(-34px, 0, 0); }
+  .js .reveal[data-from="right"] { transform: translate3d(34px, 0, 0); }
+  .js .reveal.is-visible { opacity: 1; transform: none; }
+  .js .reveal .title-rule { transform: scaleX(0); transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) calc(var(--reveal-delay, 0ms) + 250ms); }
+  .js .reveal.is-visible .title-rule { transform: scaleX(1); }
+  .js .reveal.is-visible .timeline-dot { animation: dot-pop 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: var(--reveal-delay, 0ms); }
+
+  /* Ilustración de la portada: movimiento ambiental muy lento */
+  .sun-rays { animation: spin-slow 140s linear infinite; }
+  .sun-core { animation: breathe 8s ease-in-out infinite; }
+  .hill-a { animation: drift-a 18s ease-in-out infinite; }
+  .hill-b { animation: drift-b 22s ease-in-out infinite; }
+  .hill-c { animation: drift-a 28s ease-in-out infinite; }
+  .float-badge { animation: float-y 7s ease-in-out infinite; }
+  .drift-a { animation: drift-a 20s ease-in-out infinite; }
+  .drift-b { animation: drift-b 24s ease-in-out infinite; }
+
+  .btn:hover::after { animation: shine 0.85s ease; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .in { opacity: 1; }
+  .btn::after { display: none; }
+}

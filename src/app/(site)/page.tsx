@@ -1,5 +1,7 @@
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import { AnnouncementCard, EventRow, NewsCard } from "@/components/content/cards";
+import { Reveal } from "@/components/motion/Reveal";
 import { HeroCarousel } from "@/components/home/HeroCarousel";
 import { HeroIllustration } from "@/components/home/HeroIllustration";
 import { SchoolJsonLd } from "@/components/seo/JsonLd";
@@ -46,30 +48,30 @@ export default async function HomePage() {
       {/* Hero */}
       <section className="bg-gradient-to-b from-cream to-paper">
         <div className="container-page grid items-center gap-10 py-12 sm:py-16 lg:grid-cols-[1.05fr_1fr] lg:gap-14 lg:py-20">
-          <div className="fade-up">
-            <p className="mb-5 inline-flex items-center gap-2.5 rounded-full bg-sky px-4 py-2 text-[0.8rem] font-bold uppercase tracking-[0.06em] text-brand">
+          <div>
+            <p style={{ "--i": 0 } as CSSProperties} className="in mb-5 inline-flex items-center gap-2.5 rounded-full bg-sky px-4 py-2 text-[0.8rem] font-bold uppercase tracking-[0.06em] text-brand">
               <span aria-hidden="true" className="size-2 rounded-full bg-sun" />
               Escuela N° {SCHOOL.number} · Fundada en {SCHOOL.foundedYear}
             </p>
-            <h1 className="font-display text-[2.7rem] font-extrabold leading-[1.02] tracking-tight sm:text-6xl lg:text-[4.25rem]">
+            <h1 style={{ "--i": 1 } as CSSProperties} className="in font-display text-[2.7rem] font-extrabold leading-[1.02] tracking-tight sm:text-6xl lg:text-[4.25rem]">
               {settings.hero.title === SCHOOL.name ? (
                 <>Escuela Particular <span className="text-brand">Monterrey</span></>
               ) : (
                 settings.hero.title
               )}
             </h1>
-            <p className="mt-5 max-w-xl text-lg leading-relaxed text-[#35414f] sm:text-xl">{settings.hero.subtitle}</p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <p style={{ "--i": 2 } as CSSProperties} className="in mt-5 max-w-xl text-lg leading-relaxed text-[#35414f] sm:text-xl">{settings.hero.subtitle}</p>
+            <div style={{ "--i": 3 } as CSSProperties} className="in mt-8 flex flex-wrap gap-3">
               <Link href="/quienes-somos" className="btn btn-primary text-[1.05rem]">
                 Conoce nuestro colegio <Icon name="arrow" size={18} />
               </Link>
               <Link href="/noticias" className="btn btn-outline text-[1.05rem]">Noticias y actividades</Link>
             </div>
           </div>
-          <div>
+          <div style={{ "--i": 2 } as CSSProperties} className="in">
             <div className="relative">
             {slides.length ? <HeroCarousel slides={slides} /> : <HeroIllustration />}
-            <div className="absolute -bottom-5 left-3 flex items-center gap-3 rounded-2xl bg-white px-4 py-3 shadow-card sm:-left-4">
+            <div className="float-badge absolute -bottom-5 left-3 flex items-center gap-3 rounded-2xl bg-white px-4 py-3 shadow-card sm:-left-4">
               <span className="flex size-11 items-center justify-center rounded-xl bg-sun-tint text-sun-deep"><Icon name="clock" size={24} /></span>
               <div>
                 <p className="font-bold leading-tight text-ink">Jornada Escolar Completa</p>
@@ -86,10 +88,10 @@ export default async function HomePage() {
       <section aria-label="Datos del establecimiento" className="bg-ink text-white">
         <dl className="container-page grid grid-cols-2 lg:grid-cols-4">
           {FACTS.map((f, i) => (
-            <div key={f.label} className={`px-4 py-6 sm:px-6 ${i > 0 ? "lg:border-l lg:border-white/15" : ""} ${i % 2 === 1 ? "border-l border-white/15 lg:border-l" : ""}`}>
+            <Reveal key={f.label} delay={i * 90} y={14} className={`px-4 py-6 sm:px-6 ${i > 0 ? "lg:border-l lg:border-white/15" : ""} ${i % 2 === 1 ? "border-l border-white/15 lg:border-l" : ""}`}>
               <dd className="font-display text-3xl font-extrabold leading-tight text-sun sm:text-4xl">{f.big}</dd>
               <dt className="mt-1 text-[0.95rem] text-[#c5d3e8]">{f.label}</dt>
-            </div>
+            </Reveal>
           ))}
         </dl>
       </section>
@@ -98,18 +100,19 @@ export default async function HomePage() {
       <Section label="Accesos rápidos">
         <SectionTitle title="¿Qué necesitas hoy?" description="Los avisos y trámites más consultados por las familias, a un toque." />
         <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {QUICK.map((q) => (
-            <li key={q.href}>
-              <Link href={q.href} className="card lift flex items-center gap-5 p-5 sm:p-6">
-                <span className="flex size-16 shrink-0 items-center justify-center rounded-2xl bg-sky text-brand">
+          {QUICK.map((q, i) => (
+            <Reveal as="li" key={q.href} delay={(i % 3) * 90}>
+              <Link href={q.href} className="card lift group flex h-full items-center gap-5 p-5 sm:p-6">
+                <span className="flex size-16 shrink-0 items-center justify-center rounded-2xl bg-sky text-brand transition-all duration-300 group-hover:-rotate-6 group-hover:scale-105 group-hover:bg-brand group-hover:text-white">
                   <Icon name={q.icon} size={30} />
                 </span>
-                <span className="min-w-0">
+                <span className="min-w-0 flex-1">
                   <span className="block font-display text-xl font-bold text-ink">{q.title}</span>
                   <span className="block text-muted">{q.sub}</span>
                 </span>
+                <Icon name="arrow" size={20} className="shrink-0 -translate-x-2 text-brand opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100" />
               </Link>
-            </li>
+            </Reveal>
           ))}
         </ul>
       </Section>
@@ -117,7 +120,7 @@ export default async function HomePage() {
       {/* Bienvenida */}
       <Section label="Bienvenida institucional" className="!pt-6">
         <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.15fr]">
-          <div className="relative">
+          <Reveal from="left" className="relative">
             <div className="placeholder-img flex aspect-[4/5] items-end rounded-[1.75rem] border border-dashed border-[#9db8e0] p-5">
               <p className="rounded-xl bg-white px-4 py-2 text-sm text-[#35414f]">Fotografía institucional · por incorporar</p>
             </div>
@@ -125,30 +128,30 @@ export default async function HomePage() {
               <p className="font-display text-4xl font-extrabold leading-none">{SCHOOL.foundedYear}</p>
               <p className="text-sm font-semibold">año de fundación</p>
             </div>
-          </div>
-          <div>
+          </Reveal>
+          <Reveal from="right">
             <p className="eyebrow">Bienvenidos</p>
             <h2 className="mt-2 font-display text-3xl font-extrabold leading-tight sm:text-4xl">Una escuela que nació de su propia comunidad</h2>
             <p className="mt-6 text-lg text-[#35414f]">{w1}</p>
             <p className="mt-4 text-lg text-[#35414f]">{w2}</p>
             <ArrowLink href="/quienes-somos" className="mt-7">Quiénes somos</ArrowLink>
-          </div>
+          </Reveal>
         </div>
       </Section>
 
       {/* Misión y visión (textos oficiales del PEI) */}
       <section aria-label="Misión y visión" className="pb-14 sm:pb-20">
         <div className="container-page grid gap-5 lg:grid-cols-2">
-          <article className="relative overflow-hidden rounded-[1.9rem] bg-brand p-8 text-white sm:p-12">
-            <div aria-hidden="true" className="absolute -right-16 -top-16 size-56 rounded-full bg-white/10" />
+          <Reveal from="left" className="h-full"><article className="relative h-full overflow-hidden rounded-[1.9rem] bg-brand p-8 text-white sm:p-12">
+            <div aria-hidden="true" className="drift-a absolute -right-16 -top-16 size-56 rounded-full bg-white/10" />
             <h2 className="relative text-[0.85rem] font-sans font-bold uppercase tracking-[0.12em] !text-sun">Nuestra misión</h2>
             <p className="relative mt-4 font-display text-2xl font-medium leading-snug sm:text-[1.65rem]">{MISSION}</p>
-          </article>
-          <article className="relative overflow-hidden rounded-[1.9rem] bg-sun-tint p-8 text-[#2a2000] sm:p-12">
-            <div aria-hidden="true" className="absolute -right-16 -top-16 size-56 rounded-full bg-sun/40" />
+          </article></Reveal>
+          <Reveal from="right" delay={120} className="h-full"><article className="relative h-full overflow-hidden rounded-[1.9rem] bg-sun-tint p-8 text-[#2a2000] sm:p-12">
+            <div aria-hidden="true" className="drift-b absolute -right-16 -top-16 size-56 rounded-full bg-sun/40" />
             <h2 className="relative text-[0.85rem] font-sans font-bold uppercase tracking-[0.12em] !text-[#6b4a00]">Nuestra visión</h2>
             <p className="relative mt-4 font-display text-2xl font-medium leading-snug sm:text-[1.65rem]">{VISION}</p>
-          </article>
+          </article></Reveal>
         </div>
       </section>
 
@@ -161,12 +164,12 @@ export default async function HomePage() {
             action={<ArrowLink href="/quienes-somos/sellos-y-valores">Principios y valores</ArrowLink>}
           />
           <ul className="grid gap-5 lg:grid-cols-3">
-            {SEALS.map((s) => (
-              <li key={s.id} className="card lift p-7 sm:p-8">
-                <span className="mb-5 flex size-14 items-center justify-center rounded-2xl bg-ink text-sun"><Icon name={s.icon} size={28} /></span>
+            {SEALS.map((s, i) => (
+              <Reveal as="li" key={s.id} delay={i * 110} className="h-full"><div className="card lift group h-full p-7 sm:p-8">
+                <span className="mb-5 flex size-14 items-center justify-center rounded-2xl bg-ink text-sun transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-105"><Icon name={s.icon} size={28} /></span>
                 <h3 className="font-display text-2xl font-bold">{s.title}</h3>
                 <p className="mt-3 text-[1.05rem] text-[#35414f]">{s.text}</p>
-              </li>
+              </div></Reveal>
             ))}
           </ul>
         </div>
@@ -182,7 +185,9 @@ export default async function HomePage() {
         {latest.length ? (
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {latest.map((n, i) => (
-              <NewsCard key={n.id} item={n} priority={i === 0} />
+              <Reveal key={n.id} delay={i * 100} className="h-full">
+                <NewsCard item={n} priority={i === 0} />
+              </Reveal>
             ))}
           </div>
         ) : (
@@ -199,8 +204,10 @@ export default async function HomePage() {
             <h2 className="mb-6 font-display text-3xl font-extrabold">Próximas actividades</h2>
             {events.length ? (
               <div className="space-y-3">
-                {events.map((e) => (
-                  <EventRow key={e.id} event={e} />
+                {events.map((e, i) => (
+                  <Reveal key={e.id} delay={i * 90} from="left">
+                    <EventRow event={e} />
+                  </Reveal>
                 ))}
               </div>
             ) : (
@@ -210,7 +217,7 @@ export default async function HomePage() {
             )}
             <ArrowLink href="/calendario" className="mt-6">Abrir el calendario escolar</ArrowLink>
           </div>
-          <aside className="h-fit rounded-[1.75rem] bg-ink p-7 text-white sm:p-8" aria-label="Comunicados importantes">
+          <Reveal from="right" className="h-fit"><aside className="h-fit rounded-[1.75rem] bg-ink p-7 text-white sm:p-8" aria-label="Comunicados importantes">
             <div className="mb-5 flex items-center gap-3">
               <Icon name="megaphone" size={28} className="text-sun" />
               <h2 className="font-display text-2xl font-extrabold !text-white">Comunicados</h2>
@@ -227,7 +234,7 @@ export default async function HomePage() {
             <Link href="/comunicados" className="mt-5 inline-flex items-center gap-2 font-bold text-sun hover:text-white">
               Ver centro de comunicados <Icon name="arrow" size={17} />
             </Link>
-          </aside>
+          </aside></Reveal>
         </div>
       </Section>
 
@@ -238,13 +245,13 @@ export default async function HomePage() {
           {mosaic.length >= 3 ? (
             <ul className="grid auto-rows-[10rem] grid-cols-2 gap-3 sm:auto-rows-[12rem] lg:grid-cols-4">
               {mosaic.map((m, i) => (
-                <li key={`${m.mediaId}-${i}`} className={i === 0 ? "col-span-2 row-span-2" : ""}>
+                <Reveal as="li" key={`${m.mediaId}-${i}`} delay={i * 80} className={i === 0 ? "col-span-2 row-span-2" : ""}>
                   <Link href={`/galerias/${m.gallery.slug}`} className="group relative block size-full overflow-hidden rounded-3xl">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={`/media/${m.mediaId}`} alt={m.alt || m.gallery.title} loading="lazy" decoding="async" width={800} height={600} className="size-full object-cover transition-transform duration-500 group-hover:scale-105" />
                     <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/80 to-transparent p-4 text-sm font-semibold text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">{m.gallery.title}</span>
                   </Link>
-                </li>
+                </Reveal>
               ))}
             </ul>
           ) : (
@@ -271,7 +278,7 @@ export default async function HomePage() {
                   const href = safeUrl(c.url);
                   if (!href) return null;
                   return (
-                    <li key={c.id}>
+                    <Reveal as="li" key={c.id} className="h-full">
                       <a
                         href={href}
                         {...(isExternal(href) ? { target: "_blank", rel: "noopener noreferrer" } : {})}
@@ -283,7 +290,7 @@ export default async function HomePage() {
                         </span>
                         <Icon name="external" size={18} className="mt-1 shrink-0 text-brand" />
                       </a>
-                    </li>
+                    </Reveal>
                   );
                 })}
               </ul>

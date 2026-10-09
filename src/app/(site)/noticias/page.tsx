@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Reveal } from "@/components/motion/Reveal";
 import { NewsCard } from "@/components/content/cards";
 import { EmptyState, PageHeader, Pagination, Section } from "@/components/ui/common";
 import { Icon } from "@/components/ui/Icon";
@@ -107,7 +108,9 @@ export default async function NoticiasPage({ searchParams }: { searchParams: SP 
             ))}
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {visible.map((n, i) => (
-                <NewsCard key={n.id} item={n} priority={i < 3 && !featured.length} />
+                <Reveal key={n.id} delay={(i % 3) * 90} className="h-full">
+                  <NewsCard item={n} priority={i < 3 && !featured.length} />
+                </Reveal>
               ))}
             </div>
             <Pagination page={current} pages={pages} hrefFor={href} />

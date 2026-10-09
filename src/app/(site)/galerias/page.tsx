@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Reveal } from "@/components/motion/Reveal";
 import { GalleryCard } from "@/components/content/cards";
 import { EmptyState, Notice, PageHeader, Section } from "@/components/ui/common";
 import { Icon } from "@/components/ui/Icon";
@@ -55,10 +56,10 @@ export default async function GaleriasPage({ searchParams }: { searchParams: SP 
 
         {list.length ? (
           <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {list.map((g) => (
-              <li key={g.id}>
+            {list.map((g, i) => (
+              <Reveal as="li" key={g.id} delay={(i % 3) * 90}>
                 <GalleryCard gallery={g} />
-              </li>
+              </Reveal>
             ))}
           </ul>
         ) : (

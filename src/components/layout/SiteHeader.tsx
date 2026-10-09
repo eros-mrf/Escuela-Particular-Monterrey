@@ -27,6 +27,7 @@ export function SiteHeader() {
   const navRef = useRef<HTMLElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
   const burgerRef = useRef<HTMLButtonElement>(null);
+  const barRef = useRef<HTMLDivElement>(null);
 
   // Cierra los menús al navegar.
   useEffect(() => {
@@ -36,7 +37,11 @@ export function SiteHeader() {
   }, [pathname]);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 24);
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      if (barRef.current) barRef.current.style.transform = `scaleX(${max > 0 ? Math.min(1, window.scrollY / max) : 0})`;
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -112,7 +117,7 @@ export function SiteHeader() {
                         aria-haspopup="true"
                         onClick={() => setOpen(open === item.label ? null : item.label)}
                         onMouseEnter={() => setOpen(item.label)}
-                        className={cx("flex min-h-11 items-center gap-1 rounded-xl px-3 hover:bg-sky", active && "text-brand")}
+                        className={cx("nav-link flex min-h-11 items-center gap-1 rounded-xl px-3 hover:bg-sky", active && "text-brand")}
                       >
                         {item.label}
                         <Icon name="down" size={16} className={cx("transition-transform", open === item.label && "rotate-180")} />
@@ -136,7 +141,7 @@ export function SiteHeader() {
                     <Link
                       href={item.href}
                       aria-current={pathname === item.href ? "page" : undefined}
-                      className={cx("flex min-h-11 items-center rounded-xl px-3 hover:bg-sky", active && "text-brand")}
+                      className={cx("nav-link flex min-h-11 items-center rounded-xl px-3 hover:bg-sky", active && "text-brand")}
                     >
                       {item.label}
                     </Link>
@@ -172,6 +177,8 @@ export function SiteHeader() {
           </button>
         </div>
       </div>
+
+      <div ref={barRef} aria-hidden="true" className="absolute -bottom-px left-0 h-[3px] w-full origin-left bg-sun" style={{ transform: "scaleX(0)" }} />
 
       {/* Buscador desplegable */}
       <div id="buscador-sitio" hidden={!searching} className="border-t border-line bg-white">

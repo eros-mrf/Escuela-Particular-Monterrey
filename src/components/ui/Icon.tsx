@@ -30,6 +30,7 @@ import {
   Share2,
   ShieldCheck,
   Sprout,
+  ArrowUp,
   TriangleAlert,
   UserPlus,
   Users,
@@ -40,6 +41,7 @@ import {
 const icons = {
   accessibility: Accessibility,
   arrow: ArrowRight,
+  up: ArrowUp,
   book: BookOpen,
   calendar: CalendarDays,
   check: Check,

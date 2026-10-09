@@ -1,5 +1,6 @@
 import Link from "next/link";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
+import { Reveal } from "@/components/motion/Reveal";
 import { Icon } from "@/components/ui/Icon";
 import { cx } from "@/lib/utils";
 
@@ -41,14 +42,14 @@ export function PageHeader({
 }) {
   return (
     <section className="relative overflow-hidden bg-ink text-white">
-      <div aria-hidden="true" className="pointer-events-none absolute -right-24 -top-24 size-80 rounded-full bg-brand/60" />
-      <div aria-hidden="true" className="pointer-events-none absolute -bottom-32 right-40 size-64 rounded-full bg-sun/20" />
+      <div aria-hidden="true" className="drift-a pointer-events-none absolute -right-24 -top-24 size-80 rounded-full bg-brand/60" />
+      <div aria-hidden="true" className="drift-b pointer-events-none absolute -bottom-32 right-40 size-64 rounded-full bg-sun/20" />
       <div className="container-page relative py-12 sm:py-16">
         <Breadcrumbs items={[...crumbs, { label: title }]} />
-        {eyebrow && <p className="eyebrow mt-6 !text-sun">{eyebrow}</p>}
-        <h1 className="mt-2 max-w-3xl font-display text-4xl font-extrabold leading-tight !text-white sm:text-5xl">{title}</h1>
-        {description && <p className="mt-4 max-w-2xl text-lg text-white/85">{description}</p>}
-        {children && <div className="mt-6">{children}</div>}
+        {eyebrow && <p className="eyebrow in mt-6 !text-sun" style={{ "--i": 1 } as CSSProperties}>{eyebrow}</p>}
+        <h1 className="in mt-2 max-w-3xl font-display text-4xl font-extrabold leading-tight !text-white sm:text-5xl" style={{ "--i": 2 } as CSSProperties}>{title}</h1>
+        {description && <p className="in mt-4 max-w-2xl text-lg text-white/85" style={{ "--i": 3 } as CSSProperties}>{description}</p>}
+        {children && <div className="in mt-6" style={{ "--i": 4 } as CSSProperties}>{children}</div>}
       </div>
     </section>
   );
@@ -89,14 +90,15 @@ export function SectionTitle({
   tone?: "light" | "dark";
 }) {
   return (
-    <div className="mb-8 flex flex-wrap items-end justify-between gap-4 sm:mb-10">
+    <Reveal className="mb-8 flex flex-wrap items-end justify-between gap-4 sm:mb-10">
       <div className="max-w-2xl">
+        <span aria-hidden="true" className="title-rule" />
         {eyebrow && <p className={cx("eyebrow", tone === "dark" && "!text-sun")}>{eyebrow}</p>}
         <h2 className={cx("mt-2 font-display text-3xl font-extrabold sm:text-4xl", tone === "dark" && "!text-white")}>{title}</h2>
         {description && <p className={cx("mt-3 text-lg", tone === "dark" ? "text-white/80" : "text-muted")}>{description}</p>}
       </div>
       {action}
-    </div>
+    </Reveal>
   );
 }
 

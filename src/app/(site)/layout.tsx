@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { SiteHeader } from "@/components/layout/SiteHeader";
+import { BackToTop } from "@/components/motion/BackToTop";
 import { PriorityAlerts, SiteFooter, TopBar } from "@/components/layout/SiteChrome";
 
 // El contenido lo publica el colegio desde el panel; se lee en cada visita.
@@ -18,6 +19,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
         {children}
       </main>
       <SiteFooter />
+      <BackToTop />
     </>
   );
 }
