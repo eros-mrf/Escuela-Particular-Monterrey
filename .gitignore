@@ -1,0 +1,12 @@
+node_modules/
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+.env
+.env.local
+.env.*.local
+# Datos en tiempo de ejecución (base de datos en archivos + archivos subidos desde el panel)
+/data/
+npm-debug.log*
+.DS_Store
