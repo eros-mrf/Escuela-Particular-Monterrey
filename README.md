@@ -42,6 +42,12 @@ npm run dev                    # http://localhost:3000
 3. (Opcional) `npm run seed:demo` carga contenido de **demostración** claramente rotulado para probar el diseño;
    se elimina con `npm run seed:demo:limpiar` o desde el panel (Resumen → Contenido de demostración).
 
+### Cargar muchas fotografías de una vez
+
+`node scripts/importar-fotos.mjs <carpeta> --titulo "Taller de cocina" --categoria "Actividades escolares"` crea una galería **en borrador** con todas las
+imágenes de la carpeta. Para publicarla agrega `--publicar --confirmo-autorizacion` (autorizaciones de los apoderados). Las fotos quedan en `data/` (ignorada por git):
+**no subas fotografías de estudiantes a este repositorio si es público.** Quita antes los datos visibles (credenciales con nombre o teléfono) y la ubicación GPS de las fotos.
+
 ### Producción
 
 ```bash
